@@ -62,8 +62,7 @@ exports.CreateGroupChat = asyncHandler(async (req, res, next) => {
   if (!req.body.users || !req.body.name) {
     return res.status(400).send({ message: "Please Fill all the feilds" });
   }
-
-  var users = req.body.users;
+  var users = JSON.parse(req.body.users);
 
   if (users.length < 2) {
     return res
@@ -71,7 +70,7 @@ exports.CreateGroupChat = asyncHandler(async (req, res, next) => {
       .send("More than 2 users are required to form a group chat");
   }
 
-  users.push(req.user);
+  users.push(req.user._id);
 
   const groupChat = await Chat.create({
     chatName: req.body.name,
@@ -85,11 +84,12 @@ exports.CreateGroupChat = asyncHandler(async (req, res, next) => {
     .populate("groupAdmin");
 
   res.status(200).json(fullGroupChat);
+
 });
 
 exports.renameGroup = asyncHandler(async (req, res, next) => {
   const { chatId, chatName } = req.body;
-
+console.log(chatId, chatName)
   const updatedChat = await Chat.findByIdAndUpdate(
     chatId,
     {

@@ -1,9 +1,10 @@
-const express = require("express")
+const express = require('express');
 const app = express()
 app.use(express.json({limit:'5mb'}))
+
 if(process.env.NODEENV !== "Production") require("dotenv").config({path:"backend/config/.env"})
 const cors = require('cors');
-app.use(cors())
+app.use(cors());
 const cookieParser = require('cookie-parser');
 const messageRoutes = require("./Routes/messagesRoute");
 const userRoutes = require("./Routes/userRoute");

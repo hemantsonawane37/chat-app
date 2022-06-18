@@ -8,7 +8,6 @@ const cloudinary = require("cloudinary").v2;
 
 exports.RegisterUser = CatchAsyncError(async (req, res, next) => {
   const { name, email, password, pic } = req.body;
-
   if (!name || !email || !password) {
     return next(new Errorrspone("please Enter all fields", 400));
   }
@@ -72,5 +71,6 @@ exports.AllUsers = asyncHandler(async (req, res, next) => {
     : {};
 
   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-  res.status(200).json({users:users})
+ 
+  res.status(200).json(users)
 });
